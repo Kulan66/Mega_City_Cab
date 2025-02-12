@@ -7,7 +7,7 @@
 <body>
 <h1>Customer Dashboard</h1>
 <br/>
-<a href="addbooking.jsp">Make a Booking</a>
+<a href="booking?action=prepareAdd">Make a Booking</a>
 <br/>
 <a href="viewbookings.jsp">View Past Bookings</a>
 <br/>
