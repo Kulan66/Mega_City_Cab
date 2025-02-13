@@ -8,8 +8,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "CarServlet", urlPatterns = {"/car"})
 public class CarServlet extends HttpServlet {
@@ -18,6 +20,17 @@ public class CarServlet extends HttpServlet {
     @Override
     public void init() {
         carService = new CarService();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            List<Car> cars = carService.getAllCars();
+            request.setAttribute("cars", cars);
+            request.getRequestDispatcher("managecar.jsp").forward(request, response);
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
     }
 
     @Override
@@ -55,7 +68,7 @@ public class CarServlet extends HttpServlet {
         car.setAvailability(availability);
 
         carService.addCar(car);
-        response.sendRedirect("managecar.jsp");
+        response.sendRedirect("car");
     }
 
     private void updateCar(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
@@ -71,12 +84,12 @@ public class CarServlet extends HttpServlet {
         car.setAvailability(availability);
 
         carService.updateCar(car);
-        response.sendRedirect("managecar.jsp");
+        response.sendRedirect("car");
     }
 
     private void deleteCar(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int carID = Integer.parseInt(request.getParameter("carID"));
         carService.deleteCar(carID);
-        response.sendRedirect("managecar.jsp");
+        response.sendRedirect("car");
     }
 }

@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,7 +27,12 @@ public class HelpServlet extends HttpServlet {
         try {
             List<Help> guidelines = helpService.getAllGuidelines();
             request.setAttribute("guidelines", guidelines);
-            request.getRequestDispatcher("help.jsp").forward(request, response);
+            String action = request.getParameter("action");
+            if ("manage".equals(action)) {
+                request.getRequestDispatcher("helpmanage.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("help.jsp").forward(request, response);
+            }
         } catch (SQLException e) {
             throw new ServletException(e);
         }
@@ -63,7 +69,7 @@ public class HelpServlet extends HttpServlet {
         help.setGuideline(guideline);
 
         helpService.addGuideline(help);
-        response.sendRedirect("helpmanage.jsp");
+        response.sendRedirect("help?action=manage");
     }
 
     private void updateGuideline(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
@@ -75,12 +81,12 @@ public class HelpServlet extends HttpServlet {
         help.setGuideline(guideline);
 
         helpService.updateGuideline(help);
-        response.sendRedirect("helpmanage.jsp");
+        response.sendRedirect("help?action=manage");
     }
 
     private void deleteGuideline(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int helpID = Integer.parseInt(request.getParameter("helpID"));
         helpService.deleteGuideline(helpID);
-        response.sendRedirect("helpmanage.jsp");
+        response.sendRedirect("help?action=manage");
     }
 }

@@ -21,40 +21,6 @@ public class HelpDAO {
         }
     }
 
-    public Help getGuideline(int helpID) throws SQLException {
-        String query = "SELECT * FROM help WHERE help_id = ?";
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, helpID);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                Help help = new Help();
-                help.setHelpID(rs.getInt("help_id"));
-                help.setGuideline(rs.getString("guideline"));
-                return help;
-            }
-            return null;
-        }
-    }
-
-    public List<Help> getAllGuidelines() throws SQLException {
-        List<Help> guidelines = new ArrayList<>();
-        String query = "SELECT * FROM help";
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Help help = new Help();
-                help.setHelpID(rs.getInt("help_id"));
-                help.setGuideline(rs.getString("guideline"));
-                guidelines.add(help);
-            }
-        }
-        return guidelines;
-    }
-
     public void updateGuideline(Help help) throws SQLException {
         String query = "UPDATE help SET guideline = ? WHERE help_id = ?";
         try (Connection connection = DBConnection.getConnection();
@@ -72,5 +38,21 @@ public class HelpDAO {
             stmt.setInt(1, helpID);
             stmt.executeUpdate();
         }
+    }
+
+    public List<Help> getAllGuidelines() throws SQLException {
+        List<Help> guidelines = new ArrayList<>();
+        String query = "SELECT * FROM help";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                Help help = new Help();
+                help.setHelpID(rs.getInt("help_id"));
+                help.setGuideline(rs.getString("guideline"));
+                guidelines.add(help);
+            }
+        }
+        return guidelines;
     }
 }

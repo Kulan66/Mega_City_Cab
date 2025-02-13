@@ -23,22 +23,16 @@
     <label for="distanceKm">Distance (km):</label>
     <input type="number" id="distanceKm" name="distanceKm" required>
     <br/>
-    <label for="discountRate">Discount Rate:</label>
-    <input type="radio" id="discount2" name="discountRate" value="0.02">
-    <label for="discount2">2%</label>
-    <input type="radio" id="discount5" name="discountRate" value="0.05">
-    <label for="discount5">5%</label>
-    <input type="radio" id="discount10" name="discountRate" value="0.10">
-    <label for="discount10">10%</label>
-    <br/>
     <label for="driverID">Choose Driver:</label>
     <select id="driverID" name="driverID">
         <%
             List<Driver> drivers = (List<Driver>) request.getAttribute("drivers");
-            for (Driver driver : drivers) {
+            if (drivers != null) {
+                for (Driver driver : drivers) {
         %>
         <option value="<%= driver.getDriverID() %>"><%= driver.getName() %></option>
         <%
+                }
             }
         %>
     </select>

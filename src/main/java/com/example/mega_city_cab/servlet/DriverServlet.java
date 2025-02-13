@@ -10,8 +10,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "DriverServlet", urlPatterns = {"/driver"})
 public class DriverServlet extends HttpServlet {
@@ -22,6 +24,21 @@ public class DriverServlet extends HttpServlet {
     public void init() {
         driverService = new DriverService();
         carService = new CarService();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            List<Driver> drivers = driverService.getAllDrivers();
+            for (Driver driver : drivers) {
+                Car car = carService.getCar(driver.getCar().getCarID());
+                driver.setCar(car);
+            }
+            request.setAttribute("drivers", drivers);
+            request.getRequestDispatcher("managedriver.jsp").forward(request, response);
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
     }
 
     @Override
@@ -64,7 +81,7 @@ public class DriverServlet extends HttpServlet {
         driver.setAvailability(availability);
 
         driverService.addDriver(driver);
-        response.sendRedirect("managedriver.jsp");
+        response.sendRedirect("driver");
     }
 
     private void updateDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
@@ -85,12 +102,12 @@ public class DriverServlet extends HttpServlet {
         driver.setAvailability(availability);
 
         driverService.updateDriver(driver);
-        response.sendRedirect("managedriver.jsp");
+        response.sendRedirect("driver");
     }
 
     private void deleteDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int driverID = Integer.parseInt(request.getParameter("driverID"));
         driverService.deleteDriver(driverID);
-        response.sendRedirect("managedriver.jsp");
+        response.sendRedirect("driver");
     }
 }

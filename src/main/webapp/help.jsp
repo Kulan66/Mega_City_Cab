@@ -1,13 +1,28 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.mega_city_cab.model.Help" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Help</title>
+    <meta charset="UTF-8">
+    <title>Help Guidelines</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Help Guidelines</h1>
-<ul>
-    <!-- Code to list help guidelines -->
-</ul>
+<%
+    List<Help> guidelines = (List<Help>) request.getAttribute("guidelines");
+    if (guidelines != null) {
+        for (Help help : guidelines) {
+%>
+<p><%= help.getGuideline() %></p>
+<%
+    }
+} else {
+%>
+<p>No guidelines available.</p>
+<%
+    }
+%>
 </body>
 </html>

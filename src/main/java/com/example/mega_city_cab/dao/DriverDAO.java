@@ -1,5 +1,6 @@
 package com.example.mega_city_cab.dao;
 
+import com.example.mega_city_cab.model.Car;
 import com.example.mega_city_cab.model.Driver;
 import com.example.mega_city_cab.util.DBConnection;
 
@@ -26,7 +27,7 @@ public class DriverDAO {
     }
 
     public Driver getDriver(int driverID) throws SQLException {
-        String query = "SELECT * FROM driver WHERE driver_id = ?";
+        String query = "SELECT d.*, c.model, c.license_plate, c.availability AS car_availability FROM driver d LEFT JOIN car c ON d.car_id = c.car_id WHERE driver_id = ?";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, driverID);
@@ -39,7 +40,14 @@ public class DriverDAO {
                 driver.setContact(rs.getString("contact"));
                 driver.setLicenseNumber(rs.getString("license_number"));
                 driver.setAvailability(rs.getBoolean("availability"));
-                // You might need to fetch the Car object separately and set it here
+
+                Car car = new Car();
+                car.setCarID(rs.getInt("car_id"));
+                car.setModel(rs.getString("model"));
+                car.setLicensePlate(rs.getString("license_plate"));
+                car.setAvailability(rs.getBoolean("car_availability"));
+                driver.setCar(car);
+
                 return driver;
             }
             return null;
@@ -48,10 +56,10 @@ public class DriverDAO {
 
     public List<Driver> getAllDrivers() throws SQLException {
         List<Driver> drivers = new ArrayList<>();
-        String query = "SELECT * FROM driver";
+        String query = "SELECT d.*, c.model, c.license_plate, c.availability AS car_availability FROM driver d LEFT JOIN car c ON d.car_id = c.car_id";
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
+             PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Driver driver = new Driver();
@@ -60,7 +68,14 @@ public class DriverDAO {
                 driver.setContact(rs.getString("contact"));
                 driver.setLicenseNumber(rs.getString("license_number"));
                 driver.setAvailability(rs.getBoolean("availability"));
-                // You might need to fetch the Car object separately and set it here
+
+                Car car = new Car();
+                car.setCarID(rs.getInt("car_id"));
+                car.setModel(rs.getString("model"));
+                car.setLicensePlate(rs.getString("license_plate"));
+                car.setAvailability(rs.getBoolean("car_availability"));
+                driver.setCar(car);
+
                 drivers.add(driver);
             }
         }
@@ -90,24 +105,5 @@ public class DriverDAO {
         }
     }
 
-    public Driver getDriverByName(String name) throws SQLException {
-        String query = "SELECT * FROM driver WHERE name = ?";
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                Driver driver = new Driver();
-                driver.setDriverID(rs.getInt("driver_id"));
-                driver.setName(rs.getString("name"));
-                driver.setContact(rs.getString("contact"));
-                driver.setLicenseNumber(rs.getString("license_number"));
-                driver.setAvailability(rs.getBoolean("availability"));
-                // You might need to fetch the Car object separately and set it here
-                return driver;
-            }
-            return null;
-        }
-    }
 }

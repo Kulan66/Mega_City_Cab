@@ -32,8 +32,4 @@ public class DriverService {
     public void deleteDriver(int driverID) throws SQLException {
         driverDAO.deleteDriver(driverID);
     }
-
-    public Driver getDriverByName(String name) throws SQLException {
-        return driverDAO.getDriverByName(name);
-    }
 }

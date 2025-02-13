@@ -1,22 +1,22 @@
 package com.example.mega_city_cab.servlet;
 
 import com.example.mega_city_cab.model.Booking;
-import com.example.mega_city_cab.model.Car;
 import com.example.mega_city_cab.model.Customer;
 import com.example.mega_city_cab.model.Driver;
 import com.example.mega_city_cab.service.BookingService;
 import com.example.mega_city_cab.service.CarService;
 import com.example.mega_city_cab.service.CustomerService;
 import com.example.mega_city_cab.service.DriverService;
-import com.example.mega_city_cab.service.BillCalculator;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "BookingServlet", urlPatterns = {"/booking"})
@@ -39,13 +39,14 @@ public class BookingServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         try {
-            switch (action) {
-                case "prepareAdd":
-                    prepareAddBooking(request, response);
-                    break;
-                default:
-                    response.sendRedirect("customer.jsp");
-                    break;
+            if ("prepareAdd".equals(action)) {
+                prepareAddBooking(request, response);
+            } else if ("getAll".equals(action)) {
+                getAllBookings(request, response);
+            } else if ("customerBookings".equals(action)) {
+                getCustomerBookings(request, response);
+            } else {
+                response.sendRedirect("customer.jsp");
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -54,8 +55,26 @@ public class BookingServlet extends HttpServlet {
 
     private void prepareAddBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Driver> drivers = driverService.getAllDrivers();
-        request.setAttribute("drivers", drivers);
+        request.setAttribute("drivers", drivers); // Set drivers as a request attribute
         request.getRequestDispatcher("addbooking.jsp").forward(request, response);
+    }
+
+    private void getAllBookings(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        List<Booking> bookings = bookingService.getAllBookings();
+        request.setAttribute("bookings", bookings);
+        request.getRequestDispatcher("managebooking.jsp").forward(request, response);
+    }
+
+    private void getCustomerBookings(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        Customer customer = (Customer) request.getSession().getAttribute("customer");
+        if (customer != null) {
+            int customerId = customer.getCustomerID();
+            List<Booking> bookings = bookingService.getBookingsByCustomerId(customerId);
+            request.setAttribute("bookings", bookings);
+            request.getRequestDispatcher("viewbookings.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("login.jsp");
+        }
     }
 
     @Override
@@ -63,90 +82,47 @@ public class BookingServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         try {
-            switch (action) {
-                case "add":
-                    addBooking(request, response);
-                    break;
-                case "update":
-                    updateBooking(request, response);
-                    break;
-                case "delete":
-                    deleteBooking(request, response);
-                    break;
-                default:
-                    response.sendRedirect("customer.jsp");
-                    break;
+            if ("add".equals(action)) {
+                addBooking(request, response);
+            } else if ("delete".equals(action)) {
+                deleteBooking(request, response);
+            } else {
+                response.sendRedirect("customer.jsp");
             }
         } catch (SQLException e) {
             throw new ServletException(e);
         }
     }
 
-    private void addBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void addBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int customerID = Integer.parseInt(request.getParameter("customerID"));
         int driverID = Integer.parseInt(request.getParameter("driverID"));
-        int carID = Integer.parseInt(request.getParameter("carID"));
         String destination = request.getParameter("destination");
         String paymentMethod = request.getParameter("paymentMethod");
         double distanceKm = Double.parseDouble(request.getParameter("distanceKm"));
-        double discountRate = Double.parseDouble(request.getParameter("discountRate"));
+        double totalPrice = calculateTotalPrice(distanceKm); // Simplified for this example
 
-        Customer customer = customerService.getAllCustomers().stream().filter(c -> c.getCustomerID() == customerID).findFirst().orElse(null);
-        Driver driver = driverService.getAllDrivers().stream().filter(d -> d.getDriverID() == driverID).findFirst().orElse(null);
-        Car car = carService.getAllCars().stream().filter(c -> c.getCarID() == carID).findFirst().orElse(null);
-        double pricePerKm = 100.0; // Price per km in LKR
-        double taxPerKm = 5.5; // Tax per km in LKR
-        double totalPrice = BillCalculator.calculateTotalPrice(distanceKm, pricePerKm, taxPerKm, discountRate);
+        // Assuming you have a method to get the car ID by driver ID
+        int carID = driverService.getDriver(driverID).getCar().getCarID();
 
-        Booking booking = new Booking();
-        booking.setCustomer(customer);
-        booking.setDriver(driver);
-        booking.setCar(car);
-        booking.setDestination(destination);
-        booking.setPaymentMethod(paymentMethod);
-        booking.setDistanceKm(distanceKm);
-        booking.setTotalPrice(totalPrice);
-        booking.setDiscountRate(discountRate);
-
+        Booking booking = new Booking(0, customerID, driverID, carID, destination, paymentMethod, distanceKm, totalPrice, new java.sql.Timestamp(new Date().getTime()));
         bookingService.addBooking(booking);
-        response.sendRedirect("customer.jsp");
+
+        // Show popup with total bill details
+        request.setAttribute("totalPrice", totalPrice);
+        request.setAttribute("distanceKm", distanceKm);
+        request.getRequestDispatcher("billDetails.jsp").forward(request, response);
     }
 
-    private void updateBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int bookingID = Integer.parseInt(request.getParameter("bookingID"));
-        int customerID = Integer.parseInt(request.getParameter("customerID"));
-        int driverID = Integer.parseInt(request.getParameter("driverID"));
-        int carID = Integer.parseInt(request.getParameter("carID"));
-        String destination = request.getParameter("destination");
-        String paymentMethod = request.getParameter("paymentMethod");
-        double distanceKm = Double.parseDouble(request.getParameter("distanceKm"));
-        double discountRate = Double.parseDouble(request.getParameter("discountRate"));
-
-        Customer customer = customerService.getAllCustomers().stream().filter(c -> c.getCustomerID() == customerID).findFirst().orElse(null);
-        Driver driver = driverService.getAllDrivers().stream().filter(d -> d.getDriverID() == driverID).findFirst().orElse(null);
-        Car car = carService.getAllCars().stream().filter(c -> c.getCarID() == carID).findFirst().orElse(null);
+    private double calculateTotalPrice(double distanceKm) {
         double pricePerKm = 100.0; // Price per km in LKR
         double taxPerKm = 5.5; // Tax per km in LKR
-        double totalPrice = BillCalculator.calculateTotalPrice(distanceKm, pricePerKm, taxPerKm, discountRate);
-
-        Booking booking = new Booking();
-        booking.setBookingID(bookingID);
-        booking.setCustomer(customer);
-        booking.setDriver(driver);
-        booking.setCar(car);
-        booking.setDestination(destination);
-        booking.setPaymentMethod(paymentMethod);
-        booking.setDistanceKm(distanceKm);
-        booking.setTotalPrice(totalPrice);
-        booking.setDiscountRate(discountRate);
-
-        bookingService.updateBooking(booking);
-        response.sendRedirect("customer.jsp");
+        return distanceKm * (pricePerKm + taxPerKm);
     }
 
     private void deleteBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int bookingID = Integer.parseInt(request.getParameter("bookingID"));
         bookingService.deleteBooking(bookingID);
-        response.sendRedirect("customer.jsp");
+        response.sendRedirect("booking?action=getAll");
     }
 }

@@ -17,19 +17,15 @@ public class HelpService {
         helpDAO.addGuideline(help);
     }
 
-    public Help getGuideline(int helpID) throws SQLException {
-        return helpDAO.getGuideline(helpID);
-    }
-
-    public List<Help> getAllGuidelines() throws SQLException {
-        return helpDAO.getAllGuidelines();
-    }
-
     public void updateGuideline(Help help) throws SQLException {
         helpDAO.updateGuideline(help);
     }
 
     public void deleteGuideline(int helpID) throws SQLException {
         helpDAO.deleteGuideline(helpID);
+    }
+
+    public List<Help> getAllGuidelines() throws SQLException {
+        return helpDAO.getAllGuidelines();
     }
 }
