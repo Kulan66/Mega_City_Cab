@@ -1,32 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.example.mega_city_cab.model.Car" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.mega_city_cab.model.Car" %>
+<%@ page import="com.example.mega_city_cab.service.CarService" %>
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Manage Cars</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Manage Cars</h1>
-<form action="car" method="post">
-    <input type="hidden" name="action" value="add">
-    <label for="add-model">Model:</label>
-    <input type="text" id="add-model" name="model" required>
-    <br/>
-    <label for="add-licensePlate">License Plate:</label>
-    <input type="text" id="add-licensePlate" name="licensePlate" required>
-    <br/>
-    <label for="add-availability">Availability:</label>
-    <select id="add-availability" name="availability">
-        <option value="true">Available</option>
-        <option value="false">Not Available</option>
-    </select>
-    <br/>
-    <button type="submit">Add Car</button>
-</form>
-
-<h2>Existing Cars</h2>
+<%
+    CarService carService = new CarService();
+    List<Car> cars = carService.getAllCars();
+%>
 <table border="1">
+    <thead>
     <tr>
         <th>Car ID</th>
         <th>Model</th>
@@ -34,10 +24,10 @@
         <th>Availability</th>
         <th>Actions</th>
     </tr>
+    </thead>
+    <tbody>
     <%
-        List<Car> cars = (List<Car>) request.getAttribute("cars");
-        if (cars != null) {
-            for (Car car : cars) {
+        for (Car car : cars) {
     %>
     <tr>
         <td><%= car.getCarID() %></td>
@@ -45,32 +35,23 @@
         <td><%= car.getLicensePlate() %></td>
         <td><%= car.isAvailability() %></td>
         <td>
+            <form action="editCar.jsp" method="get" style="display:inline;">
+                <input type="hidden" name="carID" value="<%= car.getCarID() %>">
+                <button type="submit">Edit</button>
+            </form>
             <form action="car" method="post" style="display:inline;">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="carID" value="<%= car.getCarID() %>">
-                <button type="submit">Delete</button>
-            </form>
-            <form action="car" method="post" style="display:inline;">
-                <input type="hidden" name="action" value="update">
-                <input type="hidden" name="carID" value="<%= car.getCarID() %>">
-                <label for="update-model-<%= car.getCarID() %>">Model:</label>
-                <input type="text" id="update-model-<%= car.getCarID() %>" name="model" value="<%= car.getModel() %>" required>
-                <label for="update-licensePlate-<%= car.getCarID() %>">License Plate:</label>
-                <input type="text" id="update-licensePlate-<%= car.getCarID() %>" name="licensePlate" value="<%= car.getLicensePlate() %>" required>
-                <label for="update-availability-<%= car.getCarID() %>">Availability:</label>
-                <select id="update-availability-<%= car.getCarID() %>" name="availability">
-                    <option value="true" <%= car.isAvailability() ? "selected" : "" %>>Available</option>
-                    <option value="false" <%= !car.isAvailability() ? "selected" : "" %>>Not Available</option>
-                </select>
-                <button type="submit">Update</button>
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this car?');">Delete</button>
             </form>
         </td>
     </tr>
     <%
-            }
         }
     %>
+    </tbody>
 </table>
-<a href="admin.jsp">Go to Dashboard</a>
+<br>
+<a href="addcar.jsp">Add New Car</a>
 </body>
 </html>

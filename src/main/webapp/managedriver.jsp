@@ -1,39 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.example.mega_city_cab.model.Driver" %>
-<%@ page import="com.example.mega_city_cab.model.Car" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.mega_city_cab.model.Driver" %>
+<%@ page import="com.example.mega_city_cab.service.DriverService" %>
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Manage Drivers</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Manage Drivers</h1>
-<form action="driver" method="post">
-    <input type="hidden" name="action" value="add">
-    <label for="add-name">Name:</label>
-    <input type="text" id="add-name" name="name" required>
-    <br/>
-    <label for="add-contact">Contact:</label>
-    <input type="text" id="add-contact" name="contact" required>
-    <br/>
-    <label for="add-licenseNumber">License Number:</label>
-    <input type="text" id="add-licenseNumber" name="licenseNumber" required>
-    <br/>
-    <label for="add-carID">Car ID:</label>
-    <input type="number" id="add-carID" name="carID" required>
-    <br/>
-    <label for="add-availability">Availability:</label>
-    <select id="add-availability" name="availability">
-        <option value="true">Available</option>
-        <option value="false">Not Available</option>
-    </select>
-    <br/>
-    <button type="submit">Add Driver</button>
-</form>
-
-<h2>Existing Drivers</h2>
+<%
+    DriverService driverService = new DriverService();
+    List<Driver> drivers = driverService.getAllDrivers();
+%>
 <table border="1">
+    <thead>
     <tr>
         <th>Driver ID</th>
         <th>Name</th>
@@ -43,10 +26,10 @@
         <th>Availability</th>
         <th>Actions</th>
     </tr>
+    </thead>
+    <tbody>
     <%
-        List<Driver> drivers = (List<Driver>) request.getAttribute("drivers");
-        if (drivers != null) {
-            for (Driver driver : drivers) {
+        for (Driver driver : drivers) {
     %>
     <tr>
         <td><%= driver.getDriverID() %></td>
@@ -56,36 +39,24 @@
         <td><%= driver.getCar().getModel() %></td>
         <td><%= driver.isAvailability() %></td>
         <td>
+            <form action="editdriver.jsp" method="get" style="display:inline;">
+                <input type="hidden" name="driverID" value="<%= driver.getDriverID() %>">
+                <button type="submit">Edit</button>
+            </form>
             <form action="driver" method="post" style="display:inline;">
                 <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="driverID" value="<%= driver.getDriverID() %>">
-                <button type="submit">Delete</button>
-            </form>
-            <form action="driver" method="post" style="display:inline;">
-                <input type="hidden" name="action" value="update">
-                <input type="hidden" name="driverID" value="<%= driver.getDriverID() %>">
-                <label for="update-name-<%= driver.getDriverID() %>">Name:</label>
-                <input type="text" id="update-name-<%= driver.getDriverID() %>" name="name" value="<%= driver.getName() %>" required>
-                <label for="update-contact-<%= driver.getDriverID() %>">Contact:</label>
-                <input type="text" id="update-contact-<%= driver.getDriverID() %>" name="contact" value="<%= driver.getContact() %>" required>
-                <label for="update-licenseNumber-<%= driver.getDriverID() %>">License Number:</label>
-                <input type="text" id="update-licenseNumber-<%= driver.getDriverID() %>" name="licenseNumber" value="<%= driver.getLicenseNumber() %>" required>
-                <label for="update-carID-<%= driver.getDriverID() %>">Car ID:</label>
-                <input type="number" id="update-carID-<%= driver.getDriverID() %>" name="carID" value="<%= driver.getCar().getCarID() %>" required>
-                <label for="update-availability-<%= driver.getDriverID() %>">Availability:</label>
-                <select id="update-availability-<%= driver.getDriverID() %>" name="availability">
-                    <option value="true" <%= driver.isAvailability() ? "selected" : "" %>>Available</option>
-                    <option value="false" <%= !driver.isAvailability() ? "selected" : "" %>>Not Available</option>
-                </select>
-                <button type="submit">Update</button>
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this driver?');">Delete</button>
             </form>
         </td>
     </tr>
     <%
-            }
         }
     %>
+    </tbody>
 </table>
+<br>
+<a href="adddriver.jsp">Add New Driver</a>
 <a href="admin.jsp">Go to Dashboard</a>
 </body>
 </html>

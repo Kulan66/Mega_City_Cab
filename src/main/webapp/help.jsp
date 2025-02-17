@@ -1,6 +1,6 @@
-<%@ page import="java.util.List" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.example.mega_city_cab.model.Help" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,18 +11,38 @@
 <body>
 <h1>Help Guidelines</h1>
 <%
+    @SuppressWarnings("unchecked")
     List<Help> guidelines = (List<Help>) request.getAttribute("guidelines");
-    if (guidelines != null) {
-        for (Help help : guidelines) {
 %>
-<p><%= help.getGuideline() %></p>
-<%
-    }
-} else {
-%>
-<p>No guidelines available.</p>
-<%
-    }
-%>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Guideline</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%
+        if (guidelines != null) {
+            for (Help help : guidelines) {
+    %>
+    <tr>
+        <td><%= help.getHelpID() %></td>
+        <td><%= help.getGuideline() %></td>
+    </tr>
+    <%
+        }
+    } else {
+    %>
+    <tr>
+        <td colspan="2">No guidelines found.</td>
+    </tr>
+    <%
+        }
+    %>
+    </tbody>
+</table>
+<br>
+<a href="admin.jsp">Go to Dashboard</a>
 </body>
 </html>

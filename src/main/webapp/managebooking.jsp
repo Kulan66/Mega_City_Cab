@@ -1,14 +1,22 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.example.mega_city_cab.model.Booking" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.mega_city_cab.model.Booking" %>
+<%@ page import="com.example.mega_city_cab.service.BookingService" %>
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Manage Bookings</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <h1>Manage Bookings</h1>
+<%
+    BookingService bookingService = new BookingService();
+    List<Booking> bookings = bookingService.getAllBookings();
+%>
 <table border="1">
+    <thead>
     <tr>
         <th>Booking ID</th>
         <th>Customer ID</th>
@@ -19,36 +27,41 @@
         <th>Distance (km)</th>
         <th>Total Price</th>
         <th>Booking Date</th>
-        <th>Action</th>
+        <th>Actions</th>
     </tr>
+    </thead>
+    <tbody>
     <%
-        List<Booking> bookings = (List<Booking>) request.getAttribute("bookings");
-        if (bookings != null) {
-            for (Booking booking : bookings) {
+        for (Booking booking : bookings) {
     %>
     <tr>
-        <td><%= booking.getBookingId() %></td>
-        <td><%= booking.getCustomerId() %></td>
-        <td><%= booking.getDriverId() %></td>
-        <td><%= booking.getCarId() %></td>
+        <td><%= booking.getBookingID() %></td>
+        <td><%= booking.getCustomerID() %></td>
+        <td><%= booking.getDriverID() %></td>
+        <td><%= booking.getCarID() %></td>
         <td><%= booking.getDestination() %></td>
         <td><%= booking.getPaymentMethod() %></td>
         <td><%= booking.getDistanceKm() %></td>
         <td><%= booking.getTotalPrice() %></td>
         <td><%= booking.getBookingDate() %></td>
         <td>
+            <form action="editBooking.jsp" method="get" style="display:inline;">
+                <input type="hidden" name="bookingID" value="<%= booking.getBookingID() %>">
+                <button type="submit">Edit</button>
+            </form>
             <form action="booking" method="post" style="display:inline;">
                 <input type="hidden" name="action" value="delete">
-                <input type="hidden" name="bookingID" value="<%= booking.getBookingId() %>">
-                <button type="submit">Delete</button>
+                <input type="hidden" name="bookingID" value="<%= booking.getBookingID() %>">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this booking?');">Delete</button>
             </form>
         </td>
     </tr>
     <%
-            }
         }
     %>
+    </tbody>
 </table>
-<a href="admin.jsp">Go to Dashboard</a>
+<br>
+<a href="adminaddbooking.jsp">Add New Booking</a>
 </body>
 </html>
