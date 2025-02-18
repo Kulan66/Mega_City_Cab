@@ -1,61 +1,49 @@
 package com.example.mega_city_cab.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Booking {
-    private int bookingId;
-    private int customerId;
-    private int driverId;
-    private int carId;
+    private int bookingID;
+    private int customerID;
+    private int driverID;
+    private int carID;
     private String destination;
     private String paymentMethod;
     private double distanceKm;
     private double totalPrice;
-    private Timestamp bookingDate;
-
-    public Booking(int bookingId, int customerId, int driverId, int carId, String destination, String paymentMethod, double distanceKm, double totalPrice, Timestamp bookingDate) {
-        this.bookingId = bookingId;
-        this.customerId = customerId;
-        this.driverId = driverId;
-        this.carId = carId;
-        this.destination = destination;
-        this.paymentMethod = paymentMethod;
-        this.distanceKm = distanceKm;
-        this.totalPrice = totalPrice;
-        this.bookingDate = bookingDate;
-    }
+    private Date bookingDate;
 
     // Getters and Setters
-    public int getBookingId() {
-        return bookingId;
+    public int getBookingID() {
+        return bookingID;
     }
 
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
+    public void setBookingID(int bookingID) {
+        this.bookingID = bookingID;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
-    public int getDriverId() {
-        return driverId;
+    public int getDriverID() {
+        return driverID;
     }
 
-    public void setDriverId(int driverId) {
-        this.driverId = driverId;
+    public void setDriverID(int driverID) {
+        this.driverID = driverID;
     }
 
-    public int getCarId() {
-        return carId;
+    public int getCarID() {
+        return carID;
     }
 
-    public void setCarId(int carId) {
-        this.carId = carId;
+    public void setCarID(int carID) {
+        this.carID = carID;
     }
 
     public String getDestination() {
@@ -90,11 +78,11 @@ public class Booking {
         this.totalPrice = totalPrice;
     }
 
-    public Timestamp getBookingDate() {
+    public Date getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(Timestamp bookingDate) {
+    public void setBookingDate(Date bookingDate) {
         this.bookingDate = bookingDate;
     }
 }

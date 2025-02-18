@@ -1,43 +1,49 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="com.example.mega_city_cab.model.Driver" %>
-<%@ page import="java.util.List" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Add Booking</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-<h1>Add Booking</h1>
+<h1>Make a New Booking</h1>
 <form action="booking" method="post">
     <input type="hidden" name="action" value="add">
-    <input type="hidden" name="customerID" value="${sessionScope.customer.customerID}">
-    <label for="destination">Destination:</label>
-    <input type="text" id="destination" name="destination" required>
-    <br/>
-    <label for="paymentMethod">Payment Method:</label>
-    <select id="paymentMethod" name="paymentMethod">
-        <option value="cash">Cash</option>
-        <option value="card">Card</option>
-    </select>
-    <br/>
-    <label for="distanceKm">Distance (km):</label>
-    <input type="number" id="distanceKm" name="distanceKm" required>
-    <br/>
-    <label for="driverID">Choose Driver:</label>
-    <select id="driverID" name="driverID">
-        <%
-            List<Driver> drivers = (List<Driver>) request.getAttribute("drivers");
-            if (drivers != null) {
-                for (Driver driver : drivers) {
-        %>
-        <option value="<%= driver.getDriverID() %>"><%= driver.getName() %></option>
-        <%
-                }
-            }
-        %>
-    </select>
-    <br/>
-    <button type="submit">Make Booking</button>
+    <div>
+        <label for="customerID">Customer ID:</label>
+        <input type="number" id="customerID" name="customerID" required>
+    </div>
+    <div>
+        <label for="driverID">Driver ID:</label>
+        <input type="number" id="driverID" name="driverID" required>
+    </div>
+    <div>
+        <label for="carID">Car ID:</label>
+        <input type="number" id="carID" name="carID" required>
+    </div>
+    <div>
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" required>
+    </div>
+    <div>
+        <label for="paymentMethod">Payment Method:</label>
+        <select id="paymentMethod" name="paymentMethod" required>
+            <option value="cash">Cash</option>
+            <option value="card">Card</option>
+        </select>
+    </div>
+    <div>
+        <label for="distanceKm">Distance (km):</label>
+        <input type="number" step="0.01" id="distanceKm" name="distanceKm" required>
+    </div>
+    <div>
+        <label for="totalPrice">Total Price:</label>
+        <input type="number" step="0.01" id="totalPrice" name="totalPrice" required>
+    </div>
+    <button type="submit">Add Booking</button>
 </form>
+<br>
+<a href="customer.jsp">Back to Dashboard</a>
 </body>
 </html>
