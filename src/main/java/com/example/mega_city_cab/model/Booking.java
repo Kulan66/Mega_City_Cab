@@ -11,6 +11,9 @@ public class Booking {
     private String paymentMethod;
     private double distanceKm;
     private double totalPrice;
+    private double basePrice;
+    private double tax;
+    private double discount;
     private Date bookingDate;
 
     // Getters and Setters
@@ -76,6 +79,30 @@ public class Booking {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public double getTax() {
+        return tax;
+    }
+
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     public Date getBookingDate() {

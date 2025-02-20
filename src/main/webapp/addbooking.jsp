@@ -9,7 +9,7 @@
 <body>
 <h1>Make a New Booking</h1>
 <form action="booking" method="post">
-    <input type="hidden" name="action" value="add">
+    <input type="hidden" name="action" value="calculate">
     <div>
         <label for="customerID">Customer ID:</label>
         <input type="number" id="customerID" name="customerID" required>
@@ -38,10 +38,15 @@
         <input type="number" step="0.01" id="distanceKm" name="distanceKm" required>
     </div>
     <div>
-        <label for="totalPrice">Total Price:</label>
-        <input type="number" step="0.01" id="totalPrice" name="totalPrice" required>
+        <label for="discount">Discount:</label>
+        <select id="discount" name="discount">
+            <option value="0">No Discount</option>
+            <option value="2">2% Discount</option>
+            <option value="5">5% Discount</option>
+            <option value="10">10% Discount</option>
+        </select>
     </div>
-    <button type="submit">Add Booking</button>
+    <button type="submit">Calculate Bill</button>
 </form>
 <br>
 <a href="customer.jsp">Back to Dashboard</a>

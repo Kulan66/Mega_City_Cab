@@ -28,8 +28,11 @@ public class BookingServlet extends HttpServlet {
 
         try {
             switch (action) {
-                case "add":
-                    addBooking(request, response);
+                case "calculate":
+                    calculateBill(request, response);
+                    break;
+                case "confirm":
+                    confirmBooking(request, response);
                     break;
                 case "update":
                     updateBooking(request, response);
@@ -46,13 +49,52 @@ public class BookingServlet extends HttpServlet {
         }
     }
 
-    private void addBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void calculateBill(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int customerID = Integer.parseInt(request.getParameter("customerID"));
         int driverID = Integer.parseInt(request.getParameter("driverID"));
         int carID = Integer.parseInt(request.getParameter("carID"));
         String destination = request.getParameter("destination");
         String paymentMethod = request.getParameter("paymentMethod");
         double distanceKm = Double.parseDouble(request.getParameter("distanceKm"));
+        int discount = Integer.parseInt(request.getParameter("discount"));
+
+        // Calculate base price and tax
+        double basePrice = distanceKm * 100;
+        double tax = distanceKm * 5;
+        double totalPrice = basePrice + tax;
+
+        // Apply discount
+        if (discount > 0) {
+            totalPrice -= totalPrice * (discount / 100.0);
+        }
+
+        Booking booking = new Booking();
+        booking.setCustomerID(customerID);
+        booking.setDriverID(driverID);
+        booking.setCarID(carID);
+        booking.setDestination(destination);
+        booking.setPaymentMethod(paymentMethod);
+        booking.setDistanceKm(distanceKm);
+        booking.setBasePrice(basePrice);
+        booking.setTax(tax);
+        booking.setDiscount(discount);
+        booking.setTotalPrice(totalPrice);
+        booking.setBookingDate(new java.util.Date());
+
+        request.setAttribute("booking", booking);
+        request.getRequestDispatcher("billdetails.jsp").forward(request, response);
+    }
+
+    private void confirmBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int customerID = Integer.parseInt(request.getParameter("customerID"));
+        int driverID = Integer.parseInt(request.getParameter("driverID"));
+        int carID = Integer.parseInt(request.getParameter("carID"));
+        String destination = request.getParameter("destination");
+        String paymentMethod = request.getParameter("paymentMethod");
+        double distanceKm = Double.parseDouble(request.getParameter("distanceKm"));
+        double basePrice = Double.parseDouble(request.getParameter("basePrice"));
+        double tax = Double.parseDouble(request.getParameter("tax"));
+        double discount = Double.parseDouble(request.getParameter("discount"));
         double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
 
         Booking booking = new Booking();
@@ -62,14 +104,17 @@ public class BookingServlet extends HttpServlet {
         booking.setDestination(destination);
         booking.setPaymentMethod(paymentMethod);
         booking.setDistanceKm(distanceKm);
+        booking.setBasePrice(basePrice);
+        booking.setTax(tax);
+        booking.setDiscount(discount);
         booking.setTotalPrice(totalPrice);
         booking.setBookingDate(new java.util.Date());
 
         bookingService.addBooking(booking);
-        response.sendRedirect("viewbookings.jsp");
+        response.sendRedirect("customer.jsp");
     }
 
-    private void updateBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void updateBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int bookingID = Integer.parseInt(request.getParameter("bookingID"));
         int customerID = Integer.parseInt(request.getParameter("customerID"));
         int driverID = Integer.parseInt(request.getParameter("driverID"));
@@ -77,7 +122,17 @@ public class BookingServlet extends HttpServlet {
         String destination = request.getParameter("destination");
         String paymentMethod = request.getParameter("paymentMethod");
         double distanceKm = Double.parseDouble(request.getParameter("distanceKm"));
-        double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
+        int discount = Integer.parseInt(request.getParameter("discount"));
+
+        // Calculate base price and tax
+        double basePrice = distanceKm * 100;
+        double tax = distanceKm * 5;
+        double totalPrice = basePrice + tax;
+
+        // Apply discount
+        if (discount > 0) {
+            totalPrice -= totalPrice * (discount / 100.0);
+        }
 
         Booking booking = new Booking();
         booking.setBookingID(bookingID);
@@ -87,6 +142,9 @@ public class BookingServlet extends HttpServlet {
         booking.setDestination(destination);
         booking.setPaymentMethod(paymentMethod);
         booking.setDistanceKm(distanceKm);
+        booking.setBasePrice(basePrice);
+        booking.setTax(tax);
+        booking.setDiscount(discount);
         booking.setTotalPrice(totalPrice);
         booking.setBookingDate(new java.util.Date());
 
@@ -121,21 +179,21 @@ public class BookingServlet extends HttpServlet {
         }
     }
 
-    private void getBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    private void getBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int bookingID = Integer.parseInt(request.getParameter("bookingID"));
         Booking booking = bookingService.getBooking(bookingID);
         request.setAttribute("booking", booking);
         request.getRequestDispatcher("viewBooking.jsp").forward(request, response);
     }
 
-    private void getBookingsByCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-        int customerID = Integer.parseInt(request.getParameter("customerID"));
+    private void getBookingsByCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int customerID = (int) request.getSession().getAttribute("customerID");
         List<Booking> bookings = bookingService.getBookingsByCustomer(customerID);
         request.setAttribute("bookings", bookings);
         request.getRequestDispatcher("viewbookings.jsp").forward(request, response);
     }
 
-    private void listAllBookings(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+    private void listAllBookings(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Booking> bookings = bookingService.getAllBookings();
         request.setAttribute("bookings", bookings);
         request.getRequestDispatcher("managebooking.jsp").forward(request, response);
