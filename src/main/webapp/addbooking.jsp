@@ -1,4 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.mega_city_cab.model.Car" %>
+<%@ page import="com.example.mega_city_cab.model.Driver" %>
+<%@ page import="com.example.mega_city_cab.service.CarService" %>
+<%@ page import="com.example.mega_city_cab.service.DriverService" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +13,12 @@
 </head>
 <body>
 <h1>Make a New Booking</h1>
+<%
+    CarService carService = new CarService();
+    DriverService driverService = new DriverService();
+    List<Car> cars = carService.getAllCars();
+    List<Driver> drivers = driverService.getAllDrivers();
+%>
 <form action="booking" method="post">
     <input type="hidden" name="action" value="calculate">
     <div>
@@ -15,12 +26,22 @@
         <input type="number" id="customerID" name="customerID" required>
     </div>
     <div>
-        <label for="driverID">Driver ID:</label>
-        <input type="number" id="driverID" name="driverID" required>
+        <label for="driverID">Driver:</label>
+        <select id="driverID" name="driverID" required>
+            <option value="">Select Driver</option>
+            <% for (Driver driver : drivers) { %>
+            <option value="<%= driver.getDriverID() %>"><%= driver.getName() %></option>
+            <% } %>
+        </select>
     </div>
     <div>
-        <label for="carID">Car ID:</label>
-        <input type="number" id="carID" name="carID" required>
+        <label for="carID">Car:</label>
+        <select id="carID" name="carID" required>
+            <option value="">Select Car</option>
+            <% for (Car car : cars) { %>
+            <option value="<%= car.getCarID() %>"><%= car.getModel() %></option>
+            <% } %>
+        </select>
     </div>
     <div>
         <label for="destination">Destination:</label>

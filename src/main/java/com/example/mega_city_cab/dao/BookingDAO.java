@@ -101,29 +101,4 @@ public class BookingDAO {
             stmt.executeUpdate();
         }
     }
-
-    public List<Booking> getBookingsByCustomer(int customerID) throws SQLException {
-        List<Booking> bookings = new ArrayList<>();
-        String query = "SELECT * FROM booking WHERE customer_id = ?";
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, customerID);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Booking booking = new Booking();
-                booking.setBookingID(rs.getInt("booking_id"));
-                booking.setCustomerID(rs.getInt("customer_id"));
-                booking.setDriverID(rs.getInt("driver_id"));
-                booking.setCarID(rs.getInt("car_id"));
-                booking.setDestination(rs.getString("destination"));
-                booking.setPaymentMethod(rs.getString("payment_method"));
-                booking.setDistanceKm(rs.getDouble("distance_km"));
-                booking.setTotalPrice(rs.getDouble("total_price"));
-                booking.setBookingDate(rs.getTimestamp("booking_date"));
-                bookings.add(booking);
-            }
-        }
-        return bookings;
-    }
 }

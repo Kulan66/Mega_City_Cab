@@ -32,8 +32,4 @@ public class BookingService {
     public void deleteBooking(int bookingID) throws SQLException {
         bookingDAO.deleteBooking(bookingID);
     }
-
-    public List<Booking> getBookingsByCustomer(int customerID) throws SQLException {
-        return bookingDAO.getBookingsByCustomer(customerID);
-    }
 }
