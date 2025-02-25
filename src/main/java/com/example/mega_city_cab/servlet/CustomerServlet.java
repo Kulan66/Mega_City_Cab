@@ -33,6 +33,9 @@ public class CustomerServlet extends HttpServlet {
                 case "login":
                     loginCustomer(request, response);
                     break;
+                case "verifyOtp":
+                    verifyOtp(request, response);
+                    break;
                 case "update":
                     updateCustomer(request, response);
                     break;
@@ -65,7 +68,7 @@ public class CustomerServlet extends HttpServlet {
         customer.setPassword(password);
 
         customerService.addCustomer(customer);
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("otp_verification.jsp?email=" + email);
     }
 
     private void loginCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
@@ -74,10 +77,24 @@ public class CustomerServlet extends HttpServlet {
 
         Customer customer = customerService.authenticateCustomer(email, password);
         if (customer != null) {
+            request.getSession().setAttribute("pendingCustomer", customer);
+            response.sendRedirect("otp_verification.jsp?email=" + email);
+        } else {
+            response.sendRedirect("login.jsp?error=Invalid email or password");
+        }
+    }
+
+    private void verifyOtp(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        String email = request.getParameter("email");
+        String otp = request.getParameter("otp");
+
+        if (customerService.validateOtp(email, otp)) {
+            customerService.clearOtp(email);
+            Customer customer = customerService.getCustomerByEmail(email);
             request.getSession().setAttribute("customer", customer);
             response.sendRedirect("customer.jsp");
         } else {
-            response.sendRedirect("login.jsp?error=Invalid email or password");
+            response.sendRedirect("otp_verification.jsp?email=" + email + "&error=Invalid OTP");
         }
     }
 

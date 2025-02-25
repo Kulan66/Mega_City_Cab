@@ -55,4 +55,20 @@ public class HelpDAO {
         }
         return guidelines;
     }
+
+    public Help getHelp(int helpID) throws SQLException {
+        String query = "SELECT * FROM help WHERE help_id = ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, helpID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Help help = new Help();
+                help.setHelpID(rs.getInt("help_id"));
+                help.setGuideline(rs.getString("guideline"));
+                return help;
+            }
+            return null;
+        }
+    }
 }

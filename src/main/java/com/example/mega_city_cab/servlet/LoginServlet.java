@@ -26,40 +26,25 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userType = request.getParameter("userType");
         String emailOrUsername = request.getParameter("emailOrUsername");
         String password = request.getParameter("password");
 
         try {
-            if ("admin".equals(userType)) {
-                loginAdmin(request, response, emailOrUsername, password);
-            } else if ("customer".equals(userType)) {
-                loginCustomer(request, response, emailOrUsername, password);
+            Admin admin = adminService.authenticateAdmin(emailOrUsername, password);
+            if (admin != null) {
+                request.getSession().setAttribute("admin", admin);
+                response.sendRedirect("admin.jsp");
             } else {
-                response.sendRedirect("login.jsp?error=Invalid user type");
+                Customer customer = customerService.authenticateCustomer(emailOrUsername, password);
+                if (customer != null) {
+                    request.getSession().setAttribute("pendingCustomer", customer);
+                    response.sendRedirect("otp_verification.jsp?email=" + emailOrUsername);
+                } else {
+                    response.sendRedirect("login.jsp?error=Invalid email/username or password");
+                }
             }
         } catch (SQLException e) {
             throw new ServletException(e);
-        }
-    }
-
-    private void loginAdmin(HttpServletRequest request, HttpServletResponse response, String username, String password) throws SQLException, IOException {
-        Admin admin = adminService.authenticateAdmin(username, password);
-        if (admin != null) {
-            request.getSession().setAttribute("admin", admin);
-            response.sendRedirect("admin.jsp");
-        } else {
-            response.sendRedirect("login.jsp?error=Invalid username or password");
-        }
-    }
-
-    private void loginCustomer(HttpServletRequest request, HttpServletResponse response, String email, String password) throws SQLException, IOException {
-        Customer customer = customerService.authenticateCustomer(email, password);
-        if (customer != null) {
-            request.getSession().setAttribute("customer", customer);
-            response.sendRedirect("customer.jsp");
-        } else {
-            response.sendRedirect("login.jsp?error=Invalid email or password");
         }
     }
 }

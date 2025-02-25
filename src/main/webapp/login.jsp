@@ -7,12 +7,6 @@
 <body>
 <h1>Login</h1>
 <form action="login" method="post">
-    <label for="userType">User Type:</label>
-    <select id="userType" name="userType">
-        <option value="customer">Customer</option>
-        <option value="admin">Admin</option>
-    </select>
-    <br/>
     <label for="emailOrUsername">Email or Username:</label>
     <input type="text" id="emailOrUsername" name="emailOrUsername" required>
     <br/>

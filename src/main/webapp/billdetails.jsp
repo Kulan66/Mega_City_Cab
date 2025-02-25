@@ -6,14 +6,24 @@
   <meta charset="UTF-8">
   <title>Bill Details</title>
   <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <h1>Booking Bill Details</h1>
 <%
   Booking booking = (Booking) request.getAttribute("booking");
+  Boolean bookingSuccess = (Boolean) request.getAttribute("bookingSuccess");
+  if (bookingSuccess != null && bookingSuccess) {
+%>
+<script>
+  alert("Booking successful!");
+  window.location.href = "customer.jsp";
+</script>
+<%
+  }
   if (booking != null) {
 %>
-<div>
+<div id="bill-details" style="background-color: white; padding: 20px;">
   <p>Customer ID: <%= booking.getCustomerID() %></p>
   <p>Driver ID: <%= booking.getDriverID() %></p>
   <p>Car ID: <%= booking.getCarID() %></p>
@@ -39,6 +49,7 @@
   <input type="hidden" name="totalPrice" value="<%= booking.getTotalPrice() %>">
   <button type="submit">Make the Booking</button>
 </form>
+<button id="save-as-image">Save as Image</button>
 <%
 } else {
 %>
@@ -48,5 +59,19 @@
 %>
 <br>
 <a href="customer.jsp">Back to Dashboard</a>
+
+<script>
+  document.getElementById("save-as-image").addEventListener("click", function() {
+    html2canvas(document.getElementById("bill-details"), {
+      backgroundColor: 'white',
+      onrendered: function(canvas) {
+        var link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'booking_details.png';
+        link.click();
+      }
+    });
+  });
+</script>
 </body>
 </html>

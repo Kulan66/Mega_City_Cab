@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
 @WebServlet(name = "BookingServlet", urlPatterns = {"/booking"})
 public class BookingServlet extends HttpServlet {
     private BookingService bookingService;
@@ -51,8 +50,6 @@ public class BookingServlet extends HttpServlet {
             throw new ServletException(e);
         }
     }
-
-
 
     private void calculateBill(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int customerID = Integer.parseInt(request.getParameter("customerID"));
@@ -116,7 +113,8 @@ public class BookingServlet extends HttpServlet {
         booking.setBookingDate(new java.util.Date());
 
         bookingService.addBooking(booking);
-        response.sendRedirect("customer.jsp");
+        request.setAttribute("bookingSuccess", true);
+        request.getRequestDispatcher("billdetails.jsp").forward(request, response);
     }
 
     private void updateBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

@@ -33,7 +33,5 @@ public class CarService {
         carDAO.deleteCar(carID);
     }
 
-    public Car getCarByModel(String model) throws SQLException {
-        return carDAO.getCarByModel(model);
-    }
+
 }

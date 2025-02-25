@@ -46,8 +46,8 @@ public class CarDAO {
         List<Car> cars = new ArrayList<>();
         String query = "SELECT * FROM car";
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
+             PreparedStatement stmt = connection.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Car car = new Car();

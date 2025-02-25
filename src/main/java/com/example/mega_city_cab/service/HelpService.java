@@ -28,4 +28,8 @@ public class HelpService {
     public List<Help> getAllGuidelines() throws SQLException {
         return helpDAO.getAllGuidelines();
     }
+
+    public Help getHelp(int helpID) throws SQLException {
+        return helpDAO.getHelp(helpID);
+    }
 }

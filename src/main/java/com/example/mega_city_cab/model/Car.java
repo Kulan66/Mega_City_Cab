@@ -5,6 +5,7 @@ public class Car {
     private String model;
     private String licensePlate;
     private boolean availability;
+    private String imageFilename;
 
     // Getters and Setters
     public int getCarID() {
@@ -37,5 +38,13 @@ public class Car {
 
     public void setAvailability(boolean availability) {
         this.availability = availability;
+    }
+
+    public String getImageFilename() {
+        return imageFilename;
+    }
+
+    public void setImageFilename(String imageFilename) {
+        this.imageFilename = imageFilename;
     }
 }
