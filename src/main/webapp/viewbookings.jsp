@@ -16,8 +16,8 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>View Bookings</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>View past Bookings</title>
+  <link rel="stylesheet" type="text/css" href="styles/viewbooking.css">
 </head>
 <body>
 <h1>View Bookings</h1>

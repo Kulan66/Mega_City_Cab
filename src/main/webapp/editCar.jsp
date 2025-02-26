@@ -5,7 +5,7 @@
 <html>
 <head>
   <title>Edit Car</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="styles/editCar.css">
 </head>
 <body>
 <%

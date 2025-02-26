@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Help Guideline</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/addhelp.css">
 </head>
 <body>
 <h1>Add New Help Guideline</h1>

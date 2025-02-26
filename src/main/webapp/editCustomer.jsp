@@ -11,7 +11,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit Customer</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="styles/editCustomer.css">
 </head>
 <body>
 <h1>Edit Customer</h1>

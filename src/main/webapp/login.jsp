@@ -2,15 +2,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="styles/login.css">
     <title>Login</title>
 </head>
 <body>
 <h1>Login</h1>
 <form action="login" method="post">
-    <label for="emailOrUsername">Email or Username:</label>
+    <label for="emailOrUsername">Email</label>
     <input type="text" id="emailOrUsername" name="emailOrUsername" required>
     <br/>
-    <label for="password">Password:</label>
+    <label for="password">Password</label>
     <input type="password" id="password" name="password" required>
     <br/>
     <button type="submit">Login</button>

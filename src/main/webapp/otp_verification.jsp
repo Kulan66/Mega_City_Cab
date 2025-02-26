@@ -3,13 +3,14 @@
 <html>
 <head>
     <title>OTP Verification</title>
+    <link rel="stylesheet" type="text/css" href="styles/otp_verification.css">
 </head>
 <body>
 <h1>OTP Verification</h1>
 <form action="customer" method="post">
     <input type="hidden" name="action" value="verifyOtp">
     <input type="hidden" name="email" value="${param.email}">
-    <label for="otp">Enter OTP:</label>
+    <label for="otp">Enter OTP</label>
     <input type="text" id="otp" name="otp" required>
     <br/>
     <button type="submit">Verify</button>

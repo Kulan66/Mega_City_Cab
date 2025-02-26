@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Cars</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/managecar.css">
 </head>
 <body>
 <h1>Manage Cars</h1>
@@ -53,5 +53,6 @@
 </table>
 <br>
 <a href="addcar.jsp">Add New Car</a>
+<a href="admin.jsp">Go to Dashboard</a>
 </body>
 </html>

@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Customers</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/managecustomer.css">
 </head>
 <body>
 <h1>Manage Customers</h1>
@@ -56,5 +56,6 @@
 </table>
 <br>
 <a href="addCustomer.jsp">Add New Customer</a>
+<a href="admin.jsp">Go to Dashboard</a>
 </body>
 </html>

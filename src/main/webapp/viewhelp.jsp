@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Help Guidelines</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/viewhelp.css">
 </head>
 <body>
 <h1>Help Guidelines</h1>

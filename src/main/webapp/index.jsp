@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="styles/index.css">
   <title>Mega City Cab - Home</title>
 </head>
 <body>

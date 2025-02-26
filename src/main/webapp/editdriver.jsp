@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Edit Driver</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/editdriver.css">
 </head>
 <body>
 <%

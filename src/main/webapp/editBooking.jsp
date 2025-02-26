@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Booking</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/editBooking.css">
 </head>
 <body>
 <%

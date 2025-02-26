@@ -11,6 +11,14 @@
 <html>
 <head>
     <title>Customer Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="styles/customer.css">
+    <script type="text/javascript">
+        function confirmLogout() {
+            if (confirm("You are going to be logged out. Are you sure?")) {
+                window.location.href = "logout";
+            }
+        }
+    </script>
 </head>
 <body>
 <h1>Hi <%= customer.getName() %></h1>
@@ -21,6 +29,6 @@
 <br/>
 <a href="viewhelp.jsp">Help</a>
 <br/>
-<a href="logout.jsp">Logout</a>
+<a href="javascript:void(0);" onclick="confirmLogout();">Logout</a> <!-- Updated logout link -->
 </body>
 </html>

@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Help Guideline</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/edithelp.css">
 </head>
 <body>
 <%

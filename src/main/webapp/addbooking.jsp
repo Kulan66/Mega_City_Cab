@@ -10,28 +10,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Booking</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <style>
-        .card {
-            display: inline-block;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 10px;
-            text-align: center;
-            width: 150px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .card img {
-            width: 100%;
-            height: auto;
-        }
-        .card.selected {
-            border-color: #007bff;
-            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-            transform: scale(1.05);
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles/addbooking.css">
+
     <script>
         function selectCard(cardType, value) {
             document.getElementById(cardType).value = value;
@@ -73,7 +53,7 @@
     <input type="hidden" name="action" value="calculate">
     <input type="hidden" id="customerID" name="customerID" value="<%= customer.getCustomerID() %>">
     <div>
-        <label for="driverID">Driver:</label>
+        <label for="driverID">Driver</label>
         <input type="hidden" id="driverID" name="driverID" required>
         <div>
             <% for (Driver driver : drivers) { %>
@@ -84,7 +64,7 @@
         </div>
     </div>
     <div>
-        <label for="carID">Car:</label>
+        <label for="carID">Car</label>
         <input type="hidden" id="carID" name="carID" required>
         <div>
             <% for (Car car : cars) { %>
@@ -96,11 +76,11 @@
         </div>
     </div>
     <div>
-        <label for="destination">Destination:</label>
+        <label for="destination">Destination</label>
         <input type="text" id="destination" name="destination" required>
     </div>
     <div>
-        <label for="paymentMethod">Payment Method:</label>
+        <label for="paymentMethod">Payment Method</label>
         <input type="hidden" id="paymentMethod" name="paymentMethod" required>
         <div>
             <div class="card paymentMethod-card" id="paymentMethod-card-cash" onclick="selectCard('paymentMethod', 'cash')">
@@ -112,11 +92,11 @@
         </div>
     </div>
     <div>
-        <label for="distanceKm">Distance (km):</label>
+        <label for="distanceKm">Distance (km)</label>
         <input type="number" step="0.01" id="distanceKm" name="distanceKm" required>
     </div>
     <div>
-        <label for="discount">Discount:</label>
+        <label for="discount">Discount</label>
         <input type="hidden" id="discount" name="discount" required>
         <div>
             <div class="card discount-card" id="discount-card-0" onclick="selectCard('discount', '0')">

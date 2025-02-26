@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Drivers</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/managedriver.css">
 </head>
 <body>
 <h1>Manage Drivers</h1>

@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Help Guidelines</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/helpmanage.css">
 </head>
 <body>
 <h1>Manage Help Guidelines</h1>

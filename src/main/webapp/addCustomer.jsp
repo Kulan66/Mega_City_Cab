@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Add Customer</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="styles/addCustomer.css">
 </head>
 <body>
 <h1>Add New Customer</h1>

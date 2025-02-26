@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Manage Bookings</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/managebooking.css">
 </head>
 <body>
 <h1>Manage Bookings</h1>
@@ -63,5 +63,6 @@
 </table>
 <br>
 <a href="adminaddbooking.jsp">Add New Booking</a>
+<a href="admin.jsp">Go to Dashboard</a>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Booking</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/adminaddbooking.css">
 </head>
 <body>
 <h1>Add New Booking</h1>
