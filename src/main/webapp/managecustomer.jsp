@@ -43,7 +43,8 @@
                 <input type="hidden" name="customerID" value="<%= customer.getCustomerID() %>">
                 <button type="submit">Edit</button>
             </form>
-            <form action="deleteCustomer" method="post" style="display:inline;">
+            <form action="customer" method="post" style="display:inline;">
+                <input type="hidden" name="action" value="delete">
                 <input type="hidden" name="customerID" value="<%= customer.getCustomerID() %>">
                 <button type="submit" onclick="return confirm('Are you sure you want to delete this customer?');">Delete</button>
             </form>

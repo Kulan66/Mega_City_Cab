@@ -31,5 +31,9 @@
 </form>
 <br/>
 <a href="login.jsp">Already have an account? Login here.</a>
+<% String error = request.getParameter("error"); %>
+<% if (error != null) { %>
+<p style="color: red;"><%= error %></p>
+<% } %>
 </body>
 </html>

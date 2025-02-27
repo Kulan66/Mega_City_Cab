@@ -117,7 +117,14 @@ public class CustomerServlet extends HttpServlet {
         customer.setPassword(password);
 
         customerService.updateCustomer(customer);
-        response.sendRedirect("managecustomer.jsp");
+
+        // Check the user's role
+        String userRole = (String) request.getSession().getAttribute("userRole");
+        if ("admin".equals(userRole)) {
+            response.sendRedirect("managecustomer.jsp");
+        } else {
+            response.sendRedirect("customer.jsp");
+        }
     }
 
     private void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {

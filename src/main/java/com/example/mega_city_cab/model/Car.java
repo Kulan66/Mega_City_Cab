@@ -40,11 +40,5 @@ public class Car {
         this.availability = availability;
     }
 
-    public String getImageFilename() {
-        return imageFilename;
-    }
 
-    public void setImageFilename(String imageFilename) {
-        this.imageFilename = imageFilename;
-    }
 }

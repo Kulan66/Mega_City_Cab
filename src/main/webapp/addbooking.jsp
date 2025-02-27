@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Booking</title>
-    <link rel="stylesheet" type="text/css" href="styles/addbooking.css">
+    <link rel="stylesheet" type="text/css" href="styles/addbooking1.css">
 
     <script>
         function selectCard(cardType, value) {
@@ -116,6 +116,6 @@
     <button type="submit">Calculate Bill</button>
 </form>
 <br>
-<a href="customer.jsp">Back to Dashboard</a>
+<a href="customer.jsp" class="back-button">Back to Dashboard</a>
 </body>
 </html>

@@ -44,7 +44,8 @@ public class LoginServlet extends HttpServlet {
                 }
             }
         } catch (SQLException e) {
-            throw new ServletException(e);
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 }
