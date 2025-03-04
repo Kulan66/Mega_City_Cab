@@ -229,13 +229,8 @@ private static final String PASSWORD = "your_password";
   - Login and make new bookings.
   - View past bookings and help guidelines.
 
-## Contributing
 
-Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
