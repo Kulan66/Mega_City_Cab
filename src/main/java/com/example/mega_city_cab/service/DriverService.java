@@ -13,6 +13,10 @@ public class DriverService {
         this.driverDAO = new DriverDAO();
     }
 
+    public void setDriverDAO(DriverDAO driverDAO) {
+        this.driverDAO = driverDAO;
+    }
+
     public void addDriver(Driver driver) throws SQLException {
         driverDAO.addDriver(driver);
     }

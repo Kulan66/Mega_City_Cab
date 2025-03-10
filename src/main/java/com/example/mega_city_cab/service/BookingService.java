@@ -13,6 +13,10 @@ public class BookingService {
         this.bookingDAO = new BookingDAO();
     }
 
+    public void setBookingDAO(BookingDAO bookingDAO) {
+        this.bookingDAO = bookingDAO;
+    }
+
     public void addBooking(Booking booking) throws SQLException {
         bookingDAO.addBooking(booking);
     }

@@ -7,8 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 public class AdminDAO {
+    private static final Logger logger = Logger.getLogger(AdminDAO.class.getName());
 
     public Admin getAdminByUsernameAndPassword(String username, String password) throws SQLException {
         String query = "SELECT * FROM admin WHERE username = ? AND password = ?";
@@ -36,6 +38,7 @@ public class AdminDAO {
             stmt.setString(1, admin.getUsername());
             stmt.setString(2, admin.getPassword());
             stmt.executeUpdate();
+            logger.info("Admin added: " + admin.getUsername());
         }
     }
 
@@ -47,6 +50,7 @@ public class AdminDAO {
             stmt.setString(2, admin.getPassword());
             stmt.setInt(3, admin.getAdminID());
             stmt.executeUpdate();
+            logger.info("Admin updated: " + admin.getUsername());
         }
     }
 
@@ -56,6 +60,7 @@ public class AdminDAO {
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, adminID);
             stmt.executeUpdate();
+            logger.info("Admin deleted with ID: " + adminID);
         }
     }
 }

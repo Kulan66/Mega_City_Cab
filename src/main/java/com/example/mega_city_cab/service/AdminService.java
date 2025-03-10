@@ -6,10 +6,15 @@ import com.example.mega_city_cab.model.Admin;
 import java.sql.SQLException;
 
 public class AdminService {
-    private AdminDAO adminDAO;
+    AdminDAO adminDAO;
 
     public AdminService() {
         this.adminDAO = new AdminDAO();
+    }
+
+    // New constructor for injecting a custom AdminDAO
+    public AdminService(AdminDAO adminDAO) {
+        this.adminDAO = adminDAO;
     }
 
     public Admin authenticateAdmin(String username, String password) throws SQLException {
