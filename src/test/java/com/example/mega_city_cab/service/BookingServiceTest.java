@@ -55,7 +55,7 @@ class BookingServiceTest {
             }
         };
         bookingService = new BookingService();
-        bookingService.setBookingDAO(bookingDAO); // Assuming there's a setter for BookingDAO in BookingService
+        bookingService.setBookingDAO(bookingDAO);
 
         booking = new Booking();
         booking.setBookingID(1);
