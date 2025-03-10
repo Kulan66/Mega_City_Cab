@@ -7,7 +7,7 @@
   <script type="text/javascript">
     // JavaScript to add background image
     document.addEventListener("DOMContentLoaded", function() {
-      document.body.style.backgroundImage = "url('car_images/background.jpg')";
+      document.body.style.backgroundImage = "url('car_images/background.png')";
       document.body.style.backgroundSize = "cover";
       document.body.style.backgroundRepeat = "no-repeat";
       document.body.style.backgroundPosition = "center center";
