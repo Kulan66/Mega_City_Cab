@@ -18,6 +18,14 @@ public class CustomerService {
         this.otpService = new OtpService();
     }
 
+    public void setCustomerDAO(CustomerDAO customerDAO) {
+        this.customerDAO = customerDAO;
+    }
+
+    public void setOtpService(OtpService otpService) {
+        this.otpService = otpService;
+    }
+
     public void addCustomer(Customer customer) throws SQLException {
         validateCustomerDetails(customer);
         if (customerDAO.getCustomerByEmail(customer.getEmail()) != null) {

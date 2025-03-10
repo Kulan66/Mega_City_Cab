@@ -13,6 +13,9 @@ public class HelpService {
         this.helpDAO = new HelpDAO();
     }
 
+    public void setHelpDAO(HelpDAO helpDAO) {
+        this.helpDAO = helpDAO;
+    }
     public void addGuideline(Help help) throws SQLException {
         helpDAO.addGuideline(help);
     }

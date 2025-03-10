@@ -13,6 +13,10 @@ public class CarService {
         this.carDAO = new CarDAO();
     }
 
+    public void setCarDAO(CarDAO carDAO) {
+        this.carDAO = carDAO;
+    }
+
     public void addCar(Car car) throws SQLException {
         carDAO.addCar(car);
     }
@@ -32,6 +36,4 @@ public class CarService {
     public void deleteCar(int carID) throws SQLException {
         carDAO.deleteCar(carID);
     }
-
-
 }
