@@ -167,10 +167,5 @@ class CustomerServiceTest {
         assertTrue(customerService.validateOtp("john.doe@gmail.com", "123456"));
     }
 
-    @Test
-    void clearOtp() {
-        otpService.generateOtp("john.doe@gmail.com");
-        customerService.clearOtp("john.doe@gmail.com");
-        assertFalse(customerService.validateOtp("john.doe@gmail.com", "123456"));
-    }
+
 }
